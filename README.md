@@ -1,40 +1,46 @@
-# master-thesis-practical-part
+# Master thesis practical part
+
+## Contact
+
+If you have questions to the thesis please message me per email 'thomashuber96@gmail.com'.
+
+## structure
+
+- azure
+- datasets 
+  - gabor
+    - preprocessed_datasets
+      - gabor
+      - retailrocket
+  - Retailrocket Recommender System dataset
+- DL
+- EDA
+- models
+- open_ai
+- RL
+- testing
+- tutorials
+
+## Guide
+
+The dataset folders need to be created, as the dataset would be to large for git.
+
+To train the models under DL the preprocessing has to be done first. 
+For that run the notebooks under EDA. 
+1) detail_rocket_eda.ipynb
+2) gabor_eda.ipynb
+3) gabor-only-products-remove-variants.ipynb
+4) gabor_user_item_interactions.ipynb
+
+These notebooks will create the preprocessed datasets in the folder datasets/gabor/preprocessed_datasets/gabor and datasets/gabor/preprocessed_datasets/retailrocket.
+
+To use the OpenAI notebooks an OpenAI API key has to be added to .env.local.
+
+To use Amazon Personalize use the files in EDA/AWS to prepare the datasets. 
+The generated files can be found in datasets/preprocessed_datasets. 
+These files can be uploaded to an S3 bucket in AWS.
 
 
-### ML Flow
-
-Start: "mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns --host localhost:5000"
+The folders azure, RL, testing and tutorials are not used in the thesis and can be seen as legacy code. 
 
 
-Start and end run
-registry_uri = "sqlite:///mlflow.db"
-tracking_uri = "http://127.0.0.1:5000"
-
-mlflow.tracking.set_registry_uri(registry_uri)
-mlflow.tracking.set_tracking_uri(tracking_uri)
-
-try:
-    exp_id = mlflow.create_experiment(name=exp_name)
-except:
-    exp_id = mlflow.get_experiment_by_name(name=exp_name).experiment_id
-
-run_name = 'RFC_V2'
-mlflow.start_run(run_name=run_name, experiment_id=exp_id)
-mlflow.end_run()
-
-Tags/Params/Metrics: 
-
-mlflow.set_tag('Developer', 'Thomas Huber')
-mlflow.log_metric('f1-score', fscore)
-mlflow.log_param('random_state', random_state)
-
-
-sklearn:
-
-signature = mlflow.models.signature.infer_signature(x_train, rfc.predict(x_train))
-mlflow.sklearn.log_model(rfc, "model", registered_model_name="RFC", signature=signature)
-
-
-keras:
-
-score = mlp.evaluate(x_test, y_test, batch_size=batch_size ,verbose=1)
